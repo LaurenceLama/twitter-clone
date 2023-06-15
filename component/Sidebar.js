@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { HomeIcon } from "@heroicons/react/solid";
+import { HomeIcon } from "@heroicons/react/24/solid";
 import {
   HashtagIcon,
   BellIcon,
@@ -9,7 +9,7 @@ import {
   UserIcon,
   DotsCircleHorizontalIcon,
   DotsHorizontalIcon,
-} from "@heroicons/react/outline";
+} from "@heroicons/react/24/outline";
 import SidebarLink from "./SidebarLink";
 import { signOut } from "next-auth/react";
 import { useSession } from "next-auth/react";
@@ -20,7 +20,7 @@ function Sidebar() {
   return (
     <div className="hidden sm:flex flex-col items-center xl:items-start xl:w-[340px] p-2 fixed h-full">
       <div className="flex items-center justify-center w-14 h-14 hoverAnimation p-0 xl:ml-24">
-        <Image src="https://rb.gy/ogau5a" width={30} height={30} />
+        <Image src="https://rb.gy/ogau5a" alt='rawr' width={30} height={30} />
       </div>
       <div className="space-y-2.5 mt-4 mb-2.5 xl:ml-24">
         <SidebarLink text="Home" Icon={HomeIcon} active />
