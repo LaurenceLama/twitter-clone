@@ -14,7 +14,7 @@
   }
 
   .icon {
-    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-10 flex items-center justify-center rounded-full transition ease-out;
+    @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-25 flex items-center justify-center rounded-full transition ease-out;
   }
 
   .tag {
