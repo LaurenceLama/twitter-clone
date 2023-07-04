@@ -1,4 +1,10 @@
-import { CalendarIcon, ChartBarIcon, FaceSmileIcon, PhotoIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  CalendarIcon,
+  ChartBarIcon,
+  FaceSmileIcon,
+  PhotoIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { useRef, useState } from "react";
 // import "emoji-mart/css/emoji-mart.css";
 import Picker from "@emoji-mart/react";
@@ -10,7 +16,18 @@ function Input() {
   const filePickerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
 
-  const addImageToPost = (e) => {}
+  const sendPost = async () => {};
+
+  const addImageToPost = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target.result);
+    };
+  };
 
   const addEmoji = (e) => {
     let sym = e.unified.split("-");
@@ -30,7 +47,7 @@ function Input() {
         className="h-11 w-11 rounded-full cursor-pointer"
       />
       <div className="divide-y divide-gray-700 w-full">
-        <div className={``}>
+        <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -84,7 +101,7 @@ function Input() {
 
             {showEmojis && (
               <Picker
-                // onSelect={addEmoji}
+                onEmojiSelect={addEmoji}
                 data={data}
                 style={{
                   position: "absolute",
@@ -97,6 +114,13 @@ function Input() {
               />
             )}
           </div>
+          <button
+            className="bg-[#1d9bf0] text-white rounded-full px-4 py-1.5 font-bold shadow-md hover:bg-[#1a8cd8] disabled:hover:bg-[#1d9bf0] disabled:opacity-50 disabled:cursor-default"
+            disabled={!input.trim() && !selectedFile}
+            // onClick={sendPost}
+          >
+            Tweet
+          </button>
         </div>
       </div>
     </div>
