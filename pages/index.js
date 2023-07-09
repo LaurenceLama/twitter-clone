@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Head from "next/head";
 import Sidebar from "@/components/Sidebar";
 import Feed from "@/components/Feed";
@@ -39,7 +38,7 @@ export async function getServerSideProps(context) {
     (res) => res.json()
   );
   const providers = await getProviders();
-  const session = await getSession(context);
+  const session = await getSession(context); // discards the session from login page and mounts directly on main page WHEN LOGGED IN - I think this is what it is
 
   return {
     props: {

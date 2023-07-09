@@ -18,6 +18,8 @@ import {
   updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
+import Image from "next/image";
+import { signOut, useSession } from "next-auth/react";
 
 function Input() {
   const [input, setInput] = useState("");
@@ -25,6 +27,7 @@ function Input() {
   const filePickerRef = useRef(null);
   const [showEmojis, setShowEmojis] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   const sendPost = async () => {
     if (loading) return;
@@ -79,13 +82,15 @@ function Input() {
   return (
     <div
       className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll 
-      ${loading && "opacity-60"
-    }`}
+      ${loading && "opacity-60"}`}
     >
-      <img
-        src="https://rb.gy/ogau5a"
+      <Image
+        src={session.user.image}
         alt="hey"
+        width={44}
+        height={44}
         className="h-11 w-11 rounded-full cursor-pointer"
+        onClick={signOut}
       />
       <div className="divide-y divide-gray-700 w-full">
         <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
@@ -105,9 +110,11 @@ function Input() {
               >
                 <XMarkIcon className="text-white h-5" />
               </div>
-              <img
+              <Image
                 src={selectedFile}
                 alt=""
+                width={1000}
+                height={1000}
                 className="rounded-2xl max-h-80 object-contain"
               />
             </div>
