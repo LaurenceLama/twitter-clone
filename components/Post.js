@@ -38,10 +38,55 @@ function Post({ id, post, postPage }) {
   const [liked, setLiked] = useState(false);
   const router = useRouter();
 
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => setComments(snapshot.docs)
+      ),
+    [db, id]
+  );
+
+
+  // Fetching the how many likes from database(firebase I guess)
+  useEffect(
+    () =>
+      onSnapshot(collection(db, "posts", id, "likes"), (snapshot) =>
+        setLikes(snapshot.docs)
+      ),
+    [db, id]
+  );
+
+  // This thing I THINK lets the database know that a post is LIKED, can specifically understand yet
+  useEffect(
+    () =>
+      setLiked(
+        likes.findIndex((like) => like.id === session?.user?.uid) !== -1
+      ),
+    [likes]
+  );
+
+  // This thing is a kind of storage of likes per post. Ok, so on soc meds 1 account can only like/unlike singularly(no 2 or more unlikes/likes) SO,
+  // on else statement, it will make a storage for when it's gonna be liked, like its blanked out but is ready to store a like. So it will store a like? ok, so other accounts get to like a post right, so the storage is for accumulated likes, meaning the number of likes is shown but on other accounts, it won't show that they liked it cause the storage is from the uid/id? which makes sense cuz filled heart is for the certain id that liked the post, then from other accounts the post will show how many likes with no filled heart. this got too long mb
+  // And when IF LIKED, the filled heart is there, it basically functions as an unlike from the post you liked 
+  const likePost = async () => {
+    if (liked) {
+      await deleteDoc(doc(db, "posts", id, "likes", session.user.uid));
+    } 
+    else {
+      await setDoc(doc(db, "posts", id, "likes", session.user.uid), {
+        username: session.user.name,
+      });
+    }
+  };
+
   return (
     <div
       className="p-3 flex cursor-pointer border-b border-gray-700"
-      // onClick={() => router.push(`/${id}`)}
+      onClick={() => router.push(`/${id}`)}
     >
       {!postPage && (
         <Image
@@ -111,7 +156,7 @@ function Post({ id, post, postPage }) {
           <div
             className="flex items-center space-x-1 group"
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); //there is push id thing on the whole div of this post page, then this stopropagation excludes from doing the function of the push id
               setPostId(id);
               setIsOpen(true);
             }}
@@ -132,7 +177,7 @@ function Post({ id, post, postPage }) {
               onClick={(e) => {
                 e.stopPropagation();
                 deleteDoc(doc(db, "posts", id));
-                router.push("/");
+                router.push("/"); //reroute back to homepage
               }}
             >
               <div className="icon group-hover:bg-red-600/10">
@@ -147,7 +192,7 @@ function Post({ id, post, postPage }) {
             </div>
           )}
 
-          {/* <div
+          <div
             className="flex items-center space-x-1 group"
             onClick={(e) => {
               e.stopPropagation();
@@ -170,7 +215,7 @@ function Post({ id, post, postPage }) {
                 {likes.length}
               </span>
             )}
-          </div> */}
+          </div>
 
           <div className="icon group">
             <ShareIcon className="h-5 group-hover:text-[#1d9bf0]" />

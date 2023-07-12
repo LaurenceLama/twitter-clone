@@ -3,6 +3,7 @@ import Sidebar from "@/components/Sidebar";
 import Feed from "@/components/Feed";
 import { getProviders, getSession, useSession } from "next-auth/react";
 import Login from "@/components/Login";
+import Modal from "@/components/Modal";
 
 export default function Home({ trendingResults, followResults, providers }) {
   const { data: session } = useSession();
@@ -21,7 +22,7 @@ export default function Home({ trendingResults, followResults, providers }) {
         <Feed />
         {/* widgets */}
 
-        {/* Modal */}
+        <Modal />
       </main>
     </>
   );
