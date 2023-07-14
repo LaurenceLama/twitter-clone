@@ -20,4 +20,11 @@
   .tag {
     @apply text-[#1d9bf0] font-normal hover:underline cursor-pointer;
   }
+  
+  em-emoji-picker {
+    position: absolute;
+    margin-top: 20px;
+    margin-left: -190px;
+    max-width: 320px;
+  }
 }

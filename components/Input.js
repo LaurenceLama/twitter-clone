@@ -8,7 +8,6 @@ import {
 import { useRef, useState } from "react";
 // import "emoji-mart/css/emoji-mart.css";
 import Picker from "@emoji-mart/react";
-import data from "@emoji-mart/data";
 import { db, storage } from "../firebase";
 import {
   addDoc,
@@ -20,6 +19,7 @@ import {
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
+import { Data } from "emoji-mart";
 
 function Input() {
   const [input, setInput] = useState("");
@@ -81,7 +81,7 @@ function Input() {
 
   return (
     <div
-      className={`border-b border-gray-700 p-3 flex space-x-3 overflow-y-scroll 
+      className={`border-b border-gray-700 p-3 flex space-x-3 
       ${loading && "opacity-60"}`}
     >
       <Image
@@ -93,7 +93,7 @@ function Input() {
         onClick={signOut}
       />
       <div className="divide-y divide-gray-700 w-full">
-        <div className={`${selectedFile && "pb-7"} ${input && "space-y-2.5"}`}>
+        <div className={`${selectedFile && "pb-7"} ${input && "space-y-.5"}`}>
           <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -153,15 +153,13 @@ function Input() {
               {showEmojis && (
                 <Picker
                   onEmojiSelect={addEmoji}
-                  data={data}
-                  style={{
-                    position: "absolute",
-                    marginTop: "465px",
-                    marginLeft: -40,
-                    maxWidth: "320px",
-                    borderRadius: "20px",
-                  }}
-                  theme="dark"
+                  // style={{
+                  //   position: "absolute",
+                  //   marginTop: "465px",
+                  //   marginLeft: -40,
+                  //   maxWidth: "320px",
+                  //   borderRadius: "20px",
+                  // }}
                 />
               )}
             </div>
